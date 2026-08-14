@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FC Career Mode Challenges | FIFA Career Challenges & Manager/Player Career Generator</title>
+<meta name="description" content="Generează provocări realiste pentru cariera ta din FC/FIFA: manager career challenges, player career challenges, obiective, reguli și reînnoire de contract.">
+<meta name="keywords" content="FC Career Mode Challenges, FIFA Career Challenges, Manager Career Challenges, Player Career Challenges, FC26 challenge generator, career mode objectives">
+<meta name="theme-color" content="#0a2318">
+<meta property="og:title" content="FC Career Mode Challenges | FIFA Career Challenges">
+<meta property="og:description" content="Generează provocări realiste pentru manager și player în cariera ta FC/FIFA.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og-image.svg">
+<meta property="og:image:alt" content="FC Career Mode Challenges logo">
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="FC Career Mode Challenges | FIFA Career Challenges">
+<meta property="twitter:description" content="Generează provocări manager și player realiste pentru cariera ta din FC/FIFA.">
+<meta property="twitter:image" content="og-image.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="pitch-bg" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">CCG</span>
+      <div class="brand-text">
+        <h1>Career Challenge Generator</h1>
+        <p>Provocări random pentru cariera ta din FC26 — Manager sau Player</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" aria-label="Introducere">
+    <div class="hero-copy">
+      <span class="eyebrow">FC Career Mode Challenges</span>
+      <h2>Generează o carieră realistă, fără cont și fără complicări.</h2>
+      <p>Obține provocări pentru manager sau jucător, cu obiective contextuale, reguli realiste, reînnoire de contract și progres salvat automat.</p>
+      <div class="hero-actions">
+        <button id="heroGenerateBtn" class="generate-btn hero-btn" type="button">
+          <span class="whistle">⚽</span> Generează o carieră
+        </button>
+        <button id="reportIssueBtn" class="ghost-btn" type="button">Raportează o problemă</button>
+      </div>
+    </div>
+    <div class="hero-panel" aria-label="Preview carieră">
+      <div class="mini-badge">Career Ready</div>
+      <div class="hero-stat-row">
+        <strong>Manager</strong>
+        <span>+ realism</span>
+      </div>
+      <div class="hero-stat-row">
+        <strong>Player</strong>
+        <span>+ progres</span>
+      </div>
+      <div class="hero-stat-row">
+        <strong>Salvat</strong>
+        <span>local în browser</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="controls" aria-label="Setări generator">
+    <div class="control-group" role="tablist" aria-label="Mod carieră">
+      <span class="control-label">Mod</span>
+      <div class="tabs">
+        <button class="tab-btn active" data-mode="manager" role="tab" aria-selected="true">Manager</button>
+        <button class="tab-btn" data-mode="player" role="tab" aria-selected="false">Jucător</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <span class="control-label">Dificultate</span>
+      <div class="chip-group" id="difficultyChips">
+        <button class="chip active" data-diff="usor">Ușor</button>
+        <button class="chip" data-diff="normal">Normal</button>
+        <button class="chip" data-diff="greu">Greu</button>
+        <button class="chip" data-diff="legendar">Legendar</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <span class="control-label">Ligă</span>
+      <div class="chip-group" id="genderChips">
+        <button class="chip active" data-gender="">Oricare</button>
+        <button class="chip" data-gender="M">Masculin</button>
+        <button class="chip" data-gender="F">Feminin</button>
+      </div>
+    </div>
+  </section>
+
+  <details class="filters-advanced">
+    <summary>Filtre opționale</summary>
+    <section class="controls controls-advanced">
+      <div class="control-group">
+        <span class="control-label">Regiune</span>
+        <div class="chip-group" id="regionChips">
+          <button class="chip active" data-region="">Oricare</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Ligă specifică</span>
+        <select id="leagueSelect" class="league-select">
+          <option value="">Oricare ligă</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Tip echipă</span>
+        <div class="chip-group" id="teamTypeChips">
+          <button class="chip active" data-teamtype="">Oricare</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Durată provocare</span>
+        <div class="chip-group" id="durationChips">
+          <button class="chip active" data-duration="">Oricare</button>
+        </div>
+      </div>
+    </section>
+  </details>
+
+  <div class="generate-row">
+    <button id="generateBtn" class="generate-btn">
+      <span class="whistle">⚽</span> Generează provocarea
+    </button>
+    <button id="reportIssueInlineBtn" class="ghost-btn report-inline" type="button">Raportează o problemă</button>
+    <span class="pool-count" id="poolCount"></span>
+    <span class="pool-count" id="completedCount"></span>
+  </div>
+
+  <div id="contractRenewalModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="renewal"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="renewalTitle">
+      <div class="modal-header">
+        <h2 id="renewalTitle">Reînnoire de contract</h2>
+        <button type="button" class="ghost-btn small-btn" id="renewalCloseBtn">Închide</button>
+      </div>
+
+      <form id="contractRenewalForm" class="renewal-form">
+        <div class="form-grid renewal-manager-fields" id="renewalManagerFields">
+          <label>
+            <span>Poziția finală</span>
+            <input type="number" id="renewalPosition" min="1" max="30" required>
+          </label>
+          <label>
+            <span>Trofee</span>
+            <input type="number" id="renewalTrophies" min="0" max="20" value="0">
+          </label>
+          <label>
+            <span>Buget</span>
+            <input type="number" id="renewalBudget" min="0" step="0.01" required>
+          </label>
+          <label>
+            <span>Transferuri</span>
+            <input type="number" id="renewalTransfers" min="0" max="50" value="0">
+          </label>
+          <label>
+            <span>Promovare / retrogradare</span>
+            <select id="renewalStatus">
+              <option value="niciuna">Niciuna</option>
+              <option value="promovare">Promovare</option>
+              <option value="retrogradare">Retrogradare</option>
+              <option value="stabil">Stabil</option>
+            </select>
+          </label>
+          <label>
+            <span>Obiective completate</span>
+            <input type="number" id="renewalCompletedObjectives" min="0" value="0">
+          </label>
+          <label>
+            <span>Obiective eșuate</span>
+            <input type="number" id="renewalFailedObjectives" min="0" value="0">
+          </label>
+          <label>
+            <span>Poziția jucătorului cheie</span>
+            <input type="text" id="renewalKeyPosition" placeholder="ST / CM / CB">
+          </label>
+        </div>
+
+        <div class="form-grid renewal-player-fields hidden" id="renewalPlayerFields">
+          <label>
+            <span>Goluri</span>
+            <input type="number" id="renewalGoals" min="0" value="0">
+          </label>
+          <label>
+            <span>Assist-uri</span>
+            <input type="number" id="renewalAssists" min="0" value="0">
+          </label>
+          <label>
+            <span>Meciuri</span>
+            <input type="number" id="renewalMatches" min="0" value="0">
+          </label>
+          <label>
+            <span>Minute jucate</span>
+            <input type="number" id="renewalMinutes" min="0" value="0">
+          </label>
+          <label>
+            <span>Media OVR</span>
+            <input type="number" id="renewalOvr" min="40" max="100" step="0.1" value="70">
+          </label>
+          <label>
+            <span>Trofee câștigate cu echipa</span>
+            <input type="number" id="renewalTeamTrophies" min="0" max="20" value="0">
+          </label>
+          <label>
+            <span>Distincții individuale</span>
+            <select id="renewalIndividualTitles">
+              <option value="0">Niciuna</option>
+              <option value="1">1 titlu individual</option>
+              <option value="2">2+ titluri individuale</option>
+            </select>
+          </label>
+          <label>
+            <span>Poziția principală</span>
+            <input type="text" id="renewalPlayerPosition" placeholder="ST / CM / CB">
+          </label>
+          <label>
+            <span>Statut sezon</span>
+            <select id="renewalPlayerStatus">
+              <option value="stabil">Stabil</option>
+              <option value="promovare">Promovare</option>
+              <option value="retrogradare">Retrogradare</option>
+              <option value="transfer">Transfer important</option>
+            </select>
+          </label>
+          <label>
+            <span>Obiective completate</span>
+            <input type="number" id="renewalPlayerCompletedObjectives" min="0" value="0">
+          </label>
+          <label>
+            <span>Obiective eșuate</span>
+            <input type="number" id="renewalPlayerFailedObjectives" min="0" value="0">
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="ghost-btn" id="renewalCancelBtn">Anulează</button>
+          <button type="submit" class="generate-btn small-btn">Aplică noua provocare</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="seasonReviewModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="season-review"></div>
+    <div class="modal-panel season-review-panel" role="dialog" aria-modal="true" aria-labelledby="seasonReviewTitle">
+      <div class="modal-header">
+        <h2 id="seasonReviewTitle">Review sezon</h2>
+        <button type="button" class="ghost-btn small-btn" id="seasonReviewCloseBtn">Închide</button>
+      </div>
+
+      <div class="season-review-content" id="seasonReviewContent"></div>
+    </div>
+  </div>
+
+  <div id="reportProblemModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="report"></div>
+    <div class="modal-panel report-panel" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
+      <div class="modal-header">
+        <h2 id="reportTitle">Raportează o problemă</h2>
+        <button type="button" class="ghost-btn small-btn" id="reportCancelBtn">Închide</button>
+      </div>
+
+      <form id="reportIssueForm" class="renewal-form">
+        <div class="form-grid">
+          <label>
+            <span>Tip problemă</span>
+            <select id="reportIssueType">
+              <option value="bug">Bug / eroare</option>
+              <option value="impossible-challenge">Provocare imposibilă</option>
+              <option value="incoherent-combination">Combinație incoerentă</option>
+              <option value="other">Altă problemă</option>
+            </select>
+          </label>
+          <label>
+            <span>Detalii</span>
+            <textarea id="reportIssueMessage" rows="5" placeholder="Descrie problema, combinația incoerentă sau provocarea imposibilă..." required></textarea>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="ghost-btn" id="reportCloseBtn">Anulează</button>
+          <button type="submit" class="generate-btn small-btn">Trimite raportul</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <section class="card-area" id="cardArea" aria-live="polite">
+    <div class="empty-state">
+      <p>Apasă <strong>„Generează provocarea”</strong> ca să primești o cariera nouă: echipă, obiective și reguli speciale.</p>
+      <p class="empty-sub">Fiecare câmp are propriul zar 🎲 — dacă nu-ți place o parte, o rerulezi fără să pierzi restul.</p>
+    </div>
+  </section>
+
+  <section class="history-section">
+    <div class="history-header">
+      <h2>Istoric provocări</h2>
+      <button id="clearHistoryBtn" class="ghost-btn">Șterge istoricul</button>
+    </div>
+    <div id="historyList" class="history-list">
+      <p class="history-empty">Nicio provocare salvată încă.</p>
+    </div>
+  </section>
+
+  <section id="careerDashboard" class="career-dashboard" aria-live="polite"></section>
+
+</main>
+
+<footer class="footer">
+  <p id="footerNote">Baza de date conține cluburi din peste 40 de ligi FC26 (nu e 100% completă — poți adăuga cluburi ușor în <code>clubs.js</code>).</p>
+</footer>
+
+<script src="clubs.js"></script>
+<script src="challenges.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
